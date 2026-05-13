@@ -337,6 +337,26 @@ img { display: block; max-width: 100%; }
 }
 .statement__text .dim { color: var(--fg-3); display: block; }
 
+.statement-cards {
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(3rem, 6vw, 5rem); max-width: 1100px; margin-inline: auto;
+}
+.statement-card {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid var(--line-soft);
+  background: var(--bg);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.statement-card__title {
+  font-family: var(--font-display); font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 500; letter-spacing: -0.015em; line-height: 1.15; color: var(--fg); margin: 0;
+}
+.statement-card__body {
+  font-family: var(--font-body); font-size: 0.95rem; line-height: 1.7;
+  color: var(--fg-2); margin: 0;
+}
+@media (max-width: 768px) { .statement-cards { grid-template-columns: 1fr; } }
+
 /* ================================================================
    VALUES
    ================================================================ */
@@ -669,6 +689,20 @@ img { display: block; max-width: 100%; }
     <div class="statement__text reveal" id="statement-text">
       Una iglesia que no se parece a una iglesia.
       <span class="dim">Una comunidad que se parece a una <span class="em">familia.</span></span>
+    </div>
+
+    <div class="statement-cards">
+      <div class="statement-card reveal" style="--reveal-delay:100ms">
+        <h3 class="statement-card__title">Quiénes somos</h3>
+        <p class="statement-card__body">Podríamos decir que la Iglesia Hillel es una iglesia contemporánea donde se recibe a todo el mundo <strong>TAL Y COMO ES</strong>.</p>
+        <p class="statement-card__body">Hillel trabaja con un gran equipo humano para compartir las Buenas Nuevas de Jesús enfocados en la visión, por medio de: grupos de amistad, jóvenes, kids, reuniones, conciertos evangelísticos… y, como no, apoyados con los recursos de las nuevas tecnologías (Instagram, Facebook y canal YouTube).</p>
+      </div>
+      <div class="statement-card reveal" style="--reveal-delay:220ms">
+        <h3 class="statement-card__title">Misión y visión</h3>
+        <p class="statement-card__body">Un sueño es una idea, una visión es accionar; un sueño es un lugar al que quieres llegar, y una visión, es cómo llegar a ese lugar. En otras palabras, tener visión es estructurar lo que quieres lograr, algo que dure y exista, más allá de solo desearlo.</p>
+        <p class="statement-card__body">Nuestra visión como Iglesia es alcanzar y influenciar a Andorra a través de una gran Iglesia Cristo céntrica, basada en la Biblia, donde su estrategia es la Alabanza y Adoración. Dios habita en medio de la alabanza de su pueblo (Salmo 22) y sabemos que donde está Dios pueden ocurrir milagros.</p>
+        <p class="statement-card__body">Así como mandó Jesús <em>"Id a las naciones y predicad el evangelio"</em> (Marcos 16:15) esa es nuestra misión como iglesia, una iglesia que te invita a venir <strong>Tal y como Eres</strong>. Una iglesia contemporánea que se manifiesta llevando el mensaje de las buenas nuevas del reino de Dios, invitando a las personas a tener una relación personal con Dios y no una religión.</p>
+      </div>
     </div>
   </div>
 </section>
