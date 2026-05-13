@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="mono">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hillel Andorra — Bienvenido a Casa</title>
+<meta name="description" content="Iglesia evangélica en Andorra. Una comunidad que cree en personas.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- GSAP for carousel -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<style>
+/* ================================================================
+   DESIGN TOKENS — MONO (default)
+   ================================================================ */
+:root, [data-theme="mono"] {
+  --bg: #FFFFFF;
+  --surface-1: #FAFAFA;
+  --surface-2: #F4F4F4;
+  --surface-3: #EAEAEA;
+  --fg: #000000;
+  --fg-2: #1A1A1A;
+  --fg-3: #5C5C5C;
+  --fg-4: #9A9A9A;
+  --line-hair: rgba(0,0,0,0.05);
+  --line-soft: rgba(0,0,0,0.10);
+  --line-medium: rgba(0,0,0,0.18);
+  --line-strong: rgba(0,0,0,0.50);
+  --accent: #000000;
+  --logo-filter: none;
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --container-max: 1320px;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --section-y: clamp(5rem, 10vw, 9rem);
+}
+
+/* ================================================================
+   DESIGN TOKENS — NIGHT
+   ================================================================ */
+[data-theme="night"] {
+  --bg: #0A0907;
+  --surface-1: #14110D;
+  --surface-2: #1E1A14;
+  --surface-3: #2A241C;
+  --fg: #F4F0E9;
+  --fg-2: #D8D1C2;
+  --fg-3: #8A8170;
+  --fg-4: #5C5448;
+  --line-hair: rgba(244,240,233,0.06);
+  --line-soft: rgba(244,240,233,0.10);
+  --line-medium: rgba(244,240,233,0.18);
+  --line-strong: rgba(244,240,233,0.50);
+  --accent: #E08A55;
+  --logo-filter: invert(1);
+}
+
+/* ================================================================
+   BASE
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  transition: background 600ms var(--ease-smooth), color 600ms var(--ease-smooth);
+}
+
+a { color: var(--fg); text-decoration: none; transition: color 300ms var(--ease-smooth); }
+a:hover { color: var(--fg-3); }
+img { display: block; max-width: 100%; }
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ================================================================
+   REVEAL ANIMATIONS
+   ================================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 900ms var(--ease-smooth), transform 900ms var(--ease-smooth);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+.letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em);
+  transition: opacity 700ms var(--ease-smooth), transform 700ms var(--ease-smooth);
+  transition-delay: var(--letter-delay, 0ms);
+}
+.letter.in { opacity: 1; transform: translateY(0); }
+
+/* ================================================================
+   TYPOGRAPHY
+   ================================================================ */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.h-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+  font-variation-settings: "opsz" 96;
+}
+.h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.2vw, 3.25rem);
+  font-weight: 500;
+  letter-spacing: -0.022em;
+  line-height: 1.05;
+  color: var(--fg);
+  font-variation-settings: "opsz" 60;
+  text-wrap: balance;
+  margin: 0;
+}
+.em { font-style: italic; font-weight: 300; }
+.lede {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--fg-2);
+  max-width: 56ch;
+  margin: 0;
+}
+.section-head {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 720px;
+}
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+.btn {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 14px 26px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 300ms var(--ease-smooth);
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.btn--primary {
+  background: var(--fg);
+  color: var(--bg);
+  border: 1px solid var(--fg);
+}
+.btn--primary:hover { background: transparent; color: var(--fg); }
+.btn--secondary {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--fg);
+}
+.btn--secondary:hover { background: var(--fg); color: var(--bg); }
+.btn--ghost {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--line-medium);
+  border-radius: 8px;
+  padding: 12px 20px;
+}
+.btn--ghost:hover { background: var(--surface-2); }
+
+/* ================================================================
+   HEADER
+   ================================================================ */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding-block: 28px;
+  border-bottom: 1px solid transparent;
+  transition: background 600ms var(--ease-smooth), border-color 600ms var(--ease-smooth), padding 600ms var(--ease-smooth);
+}
+.site-header.scrolled {
+  background: color-mix(in oklab, var(--bg) 78%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid var(--line-soft);
+  padding-block: 18px;
+}
+.site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+
+.brand-lockup { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
+.brand-lockup img { width: 38px; height: 38px; object-fit: contain; filter: var(--logo-filter); transition: filter 300ms; }
+.brand-text { display: flex; flex-direction: column; line-height: 1; gap: 2px; }
+.brand-text .name { font-family: var(--font-display); font-size: 16px; font-weight: 500; letter-spacing: -0.015em; color: var(--fg); }
+.brand-text .sub { font-family: var(--font-body); font-size: 10px; color: var(--fg-3); }
+
+.site-nav { display: flex; align-items: center; gap: 28px; }
+.site-nav a {
+  font-family: var(--font-body); font-size: 13.5px; color: var(--fg-2);
+  position: relative; padding-block: 4px;
+  transition: color 300ms var(--ease-smooth);
+}
+.site-nav a:hover { color: var(--fg); }
+.site-nav a::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform 600ms var(--ease-smooth);
+}
+.site-nav a:hover::after { transform: scaleX(1); }
+
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.lang-toggle {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
+  color: var(--fg-2); background: transparent;
+  border: 1px solid var(--line-medium); border-radius: 999px;
+  padding: 6px 10px; cursor: pointer;
+  display: flex; gap: 6px; align-items: center;
+  transition: all 300ms var(--ease-smooth);
+}
+.lang-toggle:hover { background: var(--surface-2); }
+.lang-toggle .active { color: var(--fg); font-weight: 500; }
+.lang-toggle .inactive { color: var(--fg-4); }
+
+.theme-toggle {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid var(--line-medium); background: transparent;
+  display: grid; place-items: center; cursor: pointer;
+  transition: all 300ms var(--ease-smooth);
+}
+.theme-toggle:hover { background: var(--surface-2); }
+.theme-toggle svg { width: 14px; height: 14px; color: var(--fg-2); }
+
+@media (max-width: 980px) { .site-nav, .header-actions { display: none; } }
+
+/* ================================================================
+   HERO
+   ================================================================ */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-top: 96px; padding-bottom: 60px;
+}
+.hero__inner {
+  position: relative; z-index: 3; width: 100%;
+  max-width: var(--container-max); margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: flex; flex-direction: column; justify-content: flex-end; flex: 1;
+  padding-bottom: 80px;
+}
+.hero__card {
+  background: color-mix(in oklab, var(--bg) 88%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  padding: 36px 40px 32px; max-width: 720px;
+  border: 1px solid var(--line-soft);
+}
+.hero__title {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(3rem, 7.5vw, 5.5rem);
+  line-height: 1.02; letter-spacing: -0.025em;
+  color: var(--fg); margin: 0 0 14px;
+  font-variation-settings: "opsz" 96;
+}
+.hero__ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.hero__next-pill {
+  position: absolute; bottom: 38px; right: var(--gutter); z-index: 3;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--fg);
+  background: color-mix(in oklab, var(--bg) 70%, transparent);
+  backdrop-filter: blur(14px); padding: 12px 16px;
+  border: 1px solid var(--line-soft); border-radius: 999px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero__next-pill::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+.hero__scroll {
+  position: absolute; left: 50%; bottom: 32px; z-index: 3;
+  width: 1px; height: 56px;
+  background: linear-gradient(to bottom, transparent, var(--fg) 30%, var(--fg) 70%, transparent);
+  transform: translateX(-50%);
+}
+.hero__scroll::after {
+  content: ""; position: absolute; left: -2px; top: 0;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--fg);
+  animation: scrollDot 2.2s var(--ease-in-out) infinite;
+}
+@keyframes scrollDot {
+  0%{top:0;opacity:1} 60%{top:100%;opacity:0} 61%{top:0;opacity:0} 70%{opacity:1} 100%{top:100%;opacity:0}
+}
+
+/* ================================================================
+   STATEMENT
+   ================================================================ */
+.statement {
+  padding-block: clamp(7rem,14vw,12rem);
+  background: var(--surface-1); border-block: 1px solid var(--line-soft);
+}
+.statement__text {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(1.5rem,3.8vw,3rem); line-height: 1.15;
+  letter-spacing: -0.015em; color: var(--fg);
+  max-width: 28ch; margin-inline: auto; text-align: left;
+  font-variation-settings: "opsz" 48;
+}
+.statement__text .dim { color: var(--fg-3); display: block; }
+
+/* ================================================================
+   VALUES
+   ================================================================ */
+.values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(2rem,4vw,4rem); }
+.value { display: flex; flex-direction: column; gap: 18px; padding-top: 20px; border-top: 1px solid var(--line-medium); }
+.value__num { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--fg-3); }
+.value__title { font-family: var(--font-display); font-size: clamp(1.75rem,3vw,2.5rem); font-weight: 500; letter-spacing: -0.02em; color: var(--fg); margin: 0; line-height: 1.05; }
+.value__body { font-family: var(--font-body); font-size: 0.95rem; line-height: 1.6; color: var(--fg-2); margin: 0; }
+
+/* ================================================================
+   NEXT MEETING (inverted)
+   ================================================================ */
+.next-block { background: var(--fg); color: var(--bg); padding-block: clamp(4rem,8vw,7rem); }
+.next-block .container { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(2rem,6vw,6rem); align-items: center; }
+.next-block .eyebrow { color: color-mix(in oklab, var(--bg) 60%, transparent); }
+.next-block .h2 { color: var(--bg); font-size: clamp(2.5rem,5.5vw,4.5rem); margin: 14px 0; font-variation-settings: "opsz" 72; }
+.next-block .lede { color: color-mix(in oklab, var(--bg) 78%, transparent); max-width: 36ch; margin: 0 0 28px; }
+.next-block .btn--primary { background: var(--bg); color: var(--fg); border-color: var(--bg); }
+.next-block .btn--primary:hover { background: transparent; color: var(--bg); }
+.next-block .btn--secondary { color: var(--bg); border-color: var(--bg); }
+.next-block .btn--secondary:hover { background: var(--bg); color: var(--fg); }
+
+.next-data {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; padding: 24px 0;
+  border-top: 1px solid color-mix(in oklab, var(--bg) 18%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--bg) 18%, transparent);
+  margin-bottom: 24px;
+}
+.next-data__label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: color-mix(in oklab, var(--bg) 55%, transparent); }
+.next-data__value { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.5rem,2.4vw,2rem); color: var(--bg); letter-spacing: -0.015em; margin-top: 6px; }
+
+.countdown { display: flex; gap: 6px; margin-top: 28px; }
+.countdown__cell {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 14px 18px; border: 1px solid color-mix(in oklab, var(--bg) 18%, transparent);
+  border-radius: 8px; min-width: 72px;
+}
+.countdown__num { font-family: var(--font-display); font-size: 2rem; font-weight: 500; color: var(--bg); letter-spacing: -0.02em; line-height: 1; }
+.countdown__lbl { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: color-mix(in oklab, var(--bg) 55%, transparent); margin-top: 6px; }
+
+/* ================================================================
+   EVENTS
+   ================================================================ */
+.events-grid { display: grid; grid-template-columns: 2fr repeat(3,1fr); gap: 16px; }
+.event {
+  padding: 22px; border: 1px solid var(--line-soft); border-radius: 12px;
+  background: var(--surface-1); display: flex; flex-direction: column; gap: 8px;
+  transition: border-color 300ms, transform 600ms var(--ease-smooth); cursor: pointer; min-height: 220px;
+}
+.event:hover { border-color: var(--line-medium); transform: translateY(-2px); }
+.event.featured { background: var(--fg); color: var(--bg); border-color: var(--fg); padding: 28px; }
+.event__date { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-3); }
+.event.featured .event__date { color: color-mix(in oklab, var(--bg) 65%, transparent); }
+.event__title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 500; letter-spacing: -0.015em; line-height: 1.1; color: var(--fg); margin: 0; }
+.event.featured .event__title { color: var(--bg); font-size: 2rem; }
+.event__meta { font-family: var(--font-body); font-size: 0.875rem; color: var(--fg-2); }
+.event.featured .event__meta { color: color-mix(in oklab, var(--bg) 80%, transparent); }
+.event__cta { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line-soft); font-size: 0.875rem; color: var(--fg); display: flex; align-items: center; gap: 6px; }
+.event.featured .event__cta { border-top-color: color-mix(in oklab, var(--bg) 22%, transparent); color: var(--bg); }
+.event__arrow { display: inline-block; transition: transform 300ms; }
+.event:hover .event__arrow { transform: translateX(4px); }
+
+/* ================================================================
+   MINISTRIES
+   ================================================================ */
+.ministries-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: clamp(2rem,4vw,3.5rem); }
+.ministry { display: grid; grid-template-columns: 1fr 1.2fr; gap: 28px; align-items: center; padding-block: 12px; cursor: pointer; text-decoration: none; color: inherit; }
+.ministry__photo {
+  aspect-ratio: 4/5; background-size: cover; background-position: center;
+  filter: saturate(0.92); position: relative; overflow: hidden;
+}
+.ministry__num { position: absolute; top: 14px; left: 16px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: #fff; z-index: 2; }
+.ministry__name { font-family: var(--font-display); font-size: clamp(1.5rem,2.4vw,2rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; color: var(--fg); margin: 0; }
+.ministry__desc { font-family: var(--font-body); font-size: 0.95rem; line-height: 1.6; color: var(--fg-2); margin: 0; }
+.ministry__link {
+  font-size: 0.9rem; color: var(--fg); display: inline-flex; align-items: center;
+  gap: 8px; margin-top: 8px; border-bottom: 1px solid var(--fg);
+  align-self: flex-start; padding-bottom: 2px;
+  transition: gap 300ms var(--ease-smooth);
+}
+.ministry:hover .ministry__link { gap: 14px; }
+
+/* ================================================================
+   PASTORAL
+   ================================================================ */
+.pastoral { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,5vw,5rem); }
+.pastor { display: flex; flex-direction: column; gap: 24px; }
+.pastor__photo {
+  aspect-ratio: 3/4; background-size: cover; background-position: center;
+  filter: grayscale(1) contrast(1.05);
+  transition: filter 600ms var(--ease-smooth);
+}
+.pastor:hover .pastor__photo { filter: grayscale(0) contrast(1.02); }
+.pastor__role { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-3); }
+.pastor__name { font-family: var(--font-display); font-size: clamp(1.75rem,3vw,2.5rem); font-weight: 500; letter-spacing: -0.02em; color: var(--fg); margin: 6px 0 0; line-height: 1.05; }
+.pastor__quote {
+  font-family: var(--font-display); font-style: italic; font-weight: 300;
+  font-size: 1.25rem; line-height: 1.35; color: var(--fg);
+  border-left: 2px solid var(--fg); padding-left: 18px; margin: 12px 0;
+}
+.pastor__bio { font-family: var(--font-body); font-size: 0.95rem; line-height: 1.65; color: var(--fg-2); margin: 0; max-width: 42ch; }
+
+/* ================================================================
+   FAQ
+   ================================================================ */
+.faq-list { border-top: 1px solid var(--line-medium); max-width: 880px; }
+.faq-item { border-bottom: 1px solid var(--line-soft); padding: 22px 0; }
+.faq-q { display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 24px; }
+.faq-q__text { font-family: var(--font-display); font-size: clamp(1.125rem,1.6vw,1.4rem); font-weight: 500; letter-spacing: -0.012em; color: var(--fg); }
+.faq-q__icon { width: 24px; height: 24px; position: relative; flex-shrink: 0; }
+.faq-q__icon::before, .faq-q__icon::after { content: ""; position: absolute; background: var(--fg); top: 50%; left: 50%; }
+.faq-q__icon::before { width: 14px; height: 1px; transform: translate(-50%,-50%); }
+.faq-q__icon::after { width: 1px; height: 14px; transform: translate(-50%,-50%); transition: opacity 200ms; }
+.faq-item.open .faq-q__icon::after { opacity: 0; }
+.faq-a {
+  font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--fg-2);
+  max-width: 56ch; margin: 0; display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 400ms var(--ease-smooth), margin 400ms var(--ease-smooth);
+}
+.faq-a > span { overflow: hidden; display: block; }
+.faq-item.open .faq-a { grid-template-rows: 1fr; margin-top: 14px; }
+
+/* ================================================================
+   LOCATION
+   ================================================================ */
+.loc-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(2rem,4vw,3.5rem); }
+.map-stage { aspect-ratio: 1/1; background: var(--surface-1); position: relative; overflow: hidden; border: 1px solid var(--line-soft); }
+.map-stage__inner {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 60%, color-mix(in oklab, var(--fg) 6%, transparent), transparent 60%),
+    repeating-linear-gradient(0deg, transparent 0 24px, color-mix(in oklab, var(--fg) 4%, transparent) 24px 25px),
+    repeating-linear-gradient(90deg, transparent 0 24px, color-mix(in oklab, var(--fg) 4%, transparent) 24px 25px),
+    var(--surface-1);
+}
+.map-pin { position: absolute; left: 50%; top: 56%; transform: translate(-50%,-100%); display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.map-pin .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--fg); box-shadow: 0 0 0 6px color-mix(in oklab, var(--fg) 14%, transparent); }
+.map-pin .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg); background: var(--bg); padding: 4px 8px; border: 1px solid var(--line-medium); margin-top: 6px; white-space: nowrap; }
+.loc-info { display: flex; flex-direction: column; gap: 28px; }
+.loc-info__cell { display: flex; flex-direction: column; gap: 6px; padding-top: 18px; border-top: 1px solid var(--line-soft); }
+.loc-info__label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-3); }
+.loc-info__value { font-family: var(--font-body); font-weight: 400; color: var(--fg-2); font-size: 1rem; line-height: 1.55; }
+
+/* ================================================================
+   NEWSLETTER
+   ================================================================ */
+.newsletter { background: var(--surface-1); border-block: 1px solid var(--line-soft); }
+.newsletter__inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,5vw,5rem); align-items: center; }
+.newsletter__field {
+  display: flex; border-radius: 999px;
+  box-shadow: 0 0 0 1px var(--line-medium); background: var(--bg); overflow: hidden; max-width: 520px;
+}
+.newsletter__field input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: var(--font-body); font-size: 15px; padding: 16px 24px; color: var(--fg); min-width: 0;
+}
+.newsletter__field input::placeholder { color: var(--fg-4); }
+.newsletter__field button {
+  background: var(--fg); color: var(--bg); border: none; cursor: pointer;
+  font-family: var(--font-body); font-size: 14px; font-weight: 500; padding: 0 28px;
+  transition: opacity 300ms;
+}
+.newsletter__field button:hover { opacity: 0.85; }
+
+/* ================================================================
+   MARQUEE
+   ================================================================ */
+.marquee { overflow: hidden; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); background: var(--bg); }
+.marquee__track { display: flex; gap: 0; animation: marquee 90s linear infinite; width: max-content; }
+.marquee__item { width: 22vw; max-width: 280px; height: 180px; flex-shrink: 0; background-size: cover; background-position: center; filter: grayscale(1) contrast(1.02); }
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ================================================================
+   FOOTER
+   ================================================================ */
+.site-footer { background: var(--bg); padding-block: clamp(4rem,7vw,6rem) clamp(2rem,4vw,3rem); }
+.site-footer__top { display: grid; grid-template-columns: 1.4fr repeat(3,1fr); gap: 40px; padding-bottom: 60px; border-bottom: 1px solid var(--line-soft); }
+.site-footer__tagline { font-family: var(--font-body); font-size: 0.95rem; color: var(--fg-2); max-width: 32ch; line-height: 1.55; }
+.site-footer__social { display: flex; gap: 10px; margin-top: 16px; }
+.site-footer__social a {
+  width: 36px; height: 36px; border: 1px solid var(--line-medium); border-radius: 50%;
+  display: grid; place-items: center; color: var(--fg); transition: all 300ms;
+}
+.site-footer__social a:hover { background: var(--fg); color: var(--bg); }
+.site-footer__social svg { width: 16px; height: 16px; }
+.footer-col h4 { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-3); font-weight: 500; margin: 0 0 18px; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.footer-col a { font-family: var(--font-body); font-size: 0.95rem; color: var(--fg-2); }
+.footer-col a:hover { color: var(--fg); }
+.footer-col .muted { color: var(--fg-3); font-size: 0.9rem; }
+.site-footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; margin-top: 36px; font-size: 0.85rem; color: var(--fg-3); }
+.site-footer__bottom .legal { display: flex; gap: 20px; }
+
+/* ================================================================
+   RADIAL GALLERY
+   ================================================================ */
+.gallery-stage { position: relative; min-height: 100vh; overflow: hidden; }
+.gallery-stage__header { position: absolute; top: 0; left: 0; right: 0; z-index: 10; text-align: center; padding-top: 48px; pointer-events: none; }
+.gallery-wheel {
+  position: relative; width: 960px; height: 960px;
+  margin: 0 auto;
+}
+.gallery-card {
+  position: absolute; top: 50%; left: 50%;
+  width: 200px; height: 280px;
+  overflow: hidden; background: var(--surface-2); border: 1px solid var(--line-soft);
+  transition: transform 500ms var(--ease-smooth), filter 500ms, opacity 500ms;
+  cursor: pointer;
+}
+.gallery-card img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.95); transition: transform 700ms var(--ease-smooth); }
+.gallery-card:hover img { transform: scale(1.08); }
+.gallery-card__tag {
+  position: absolute; top: 12px; left: 14px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: #fff; padding: 5px 9px;
+  background: rgba(0,0,0,0.32); backdrop-filter: blur(10px);
+  opacity: 0; transform: translateY(-4px);
+  transition: opacity 300ms, transform 300ms;
+}
+.gallery-card:hover .gallery-card__tag { opacity: 1; transform: translateY(0); }
+.gallery-card__title {
+  position: absolute; bottom: 14px; left: 14px;
+  font-family: var(--font-body); font-size: 1rem; font-weight: 600; color: #fff;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 980px) {
+  .next-block .container { grid-template-columns: 1fr; }
+  .events-grid { grid-template-columns: 1fr 1fr; }
+  .events-grid .event:first-child { grid-column: 1 / -1; }
+  .ministries-grid { grid-template-columns: 1fr; }
+  .ministry { grid-template-columns: 0.8fr 1fr; }
+  .pastoral { grid-template-columns: 1fr; }
+  .loc-grid { grid-template-columns: 1fr; }
+  .newsletter__inner { grid-template-columns: 1fr; }
+  .site-footer__top { grid-template-columns: 1fr 1fr; }
+  .values-grid { grid-template-columns: 1fr; }
+  .gallery-wheel { width: 500px; height: 500px; }
+  .gallery-card { width: 140px; height: 190px; }
+}
+@media (max-width: 640px) {
+  .events-grid { grid-template-columns: 1fr; }
+  .events-grid .event:first-child { grid-column: 1; }
+  .site-footer__top { grid-template-columns: 1fr; }
+  .hero__card { padding: 24px 22px; }
+  .ministry { grid-template-columns: 1fr; gap: 14px; }
+  .hero__next-pill { display: none; }
+  .gallery-wheel { width: 400px; height: 400px; }
+  .gallery-card { width: 120px; height: 160px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header" id="site-header">
+  <div class="site-header__inner container">
+    <a href="#top" class="brand-lockup">
+      <img src="images/logo/511CF14D-1899-49C8-983B-580C49A2B454.PNG" alt="Hillel">
+      <div class="brand-text">
+        <div class="name">Hillel</div>
+        <div class="sub">Església d'Andorra</div>
+      </div>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      <a href="#about" data-i18n="nav.about">Quiénes Somos</a>
+      <a href="#gallery" data-i18n="nav.gallery">Galería</a>
+      <a href="#ministries" data-i18n="nav.ministries">Ministerios</a>
+      <a href="#team" data-i18n="nav.team">Equipo</a>
+      <a href="#events" data-i18n="nav.events">Agenda</a>
+      <a href="#location" data-i18n="nav.visit">Visítanos</a>
+    </nav>
+    <div class="header-actions">
+      <button class="lang-toggle" id="lang-toggle" aria-label="Cambiar idioma">
+        <span class="active" id="lang-es">ES</span>
+        <span class="inactive" style="color:var(--fg-4)">·</span>
+        <span class="inactive" id="lang-ca">CA</span>
+      </button>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
+        <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="top">
+  <div class="hero__inner">
+    <div class="hero__card">
+      <div class="eyebrow" style="margin-bottom:14px" data-i18n="hero.eyebrow">Hillel — Església d'Andorra</div>
+      <h1 class="hero__title" id="hero-title">
+        <span id="hero-pre"></span>
+        <span class="em" id="hero-emph"></span>
+      </h1>
+      <p class="lede" style="margin-bottom:24px" data-i18n="hero.lede">Una comunidad que cree en personas. En Andorra, contigo.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--primary" href="#location" data-i18n="hero.ctaPrimary">Visítanos este domingo</a>
+        <a class="btn btn--secondary" href="#about" data-i18n="hero.ctaSecondary">Conoce más</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero__next-pill" data-i18n="hero.next">Próxima reunión · Domingo · 11:00h</div>
+  <div class="hero__scroll" aria-hidden="true"></div>
+</section>
+
+<!-- ============================================================
+     STATEMENT
+     ============================================================ -->
+<section class="statement" id="about">
+  <div class="container">
+    <div class="statement__text reveal" id="statement-text">
+      Una iglesia que no se parece a una iglesia.
+      <span class="dim">Una comunidad que se parece a una <span class="em">familia.</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GALLERY (radial carousel)
+     ============================================================ -->
+<section class="gallery-stage" id="gallery" style="padding-top: var(--section-y);">
+  <div class="gallery-stage__header">
+    <div class="eyebrow" data-i18n="gallery.eyebrow">Nuestra vida</div>
+    <h2 class="h2" style="margin-top:12px"><span data-i18n="gallery.h2Pre">Momentos que</span> <span class="em" data-i18n="gallery.h2Emph">importan</span></h2>
+  </div>
+  <div style="position:relative; display:flex; justify-content:center; align-items:center; min-height:80vh; overflow:hidden; padding-top:100px;" id="gallery-pin">
+    <div class="gallery-wheel" id="gallery-wheel"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     VALUES
+     ============================================================ -->
+<section class="s" style="padding-block: var(--section-y);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-i18n="values.eyebrow">Lo que nos define</div>
+      <h2 class="h2"><span data-i18n="values.h2Pre">Un lugar para</span> <span class="em" data-i18n="values.h2Emph">ser</span></h2>
+      <p class="lede" data-i18n="values.lede">No importa de dónde vengas ni en qué punto estés. Aquí hay un sitio para ti.</p>
+    </div>
+    <div class="values-grid" id="values-grid"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     NEXT MEETING + COUNTDOWN
+     ============================================================ -->
+<section class="next-block" id="next">
+  <div class="container reveal">
+    <div>
+      <div class="eyebrow" data-i18n="next.eyebrow">Próxima reunión</div>
+      <h2 class="h2"><span data-i18n="next.h2Pre">Este</span> <span class="em" data-i18n="next.h2Emph">domingo</span></h2>
+      <p class="lede" data-i18n="next.lede">Te esperamos. Ven como eres.</p>
+      <div class="next-data" id="next-data"></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn btn--primary" href="#location" data-i18n="next.cta">Cómo llegar</a>
+        <a class="btn btn--secondary" href="#location" data-i18n="next.ctaAdd">Añadir al calendario</a>
+      </div>
+    </div>
+    <div>
+      <div class="countdown" id="countdown"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EVENTS
+     ============================================================ -->
+<section class="s" style="padding-block: var(--section-y);" id="events">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-i18n="events.eyebrow">Agenda</div>
+      <h2 class="h2"><span data-i18n="events.h2Pre">Lo que</span> <span class="em" data-i18n="events.h2Emph">viene</span></h2>
+      <p class="lede" data-i18n="events.lede">Próximas reuniones, encuentros y noches especiales.</p>
+    </div>
+    <div class="events-grid" id="events-grid"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MINISTRIES
+     ============================================================ -->
+<section class="s" style="padding-block: var(--section-y);" id="ministries">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-i18n="ministries.eyebrow">Ministerios</div>
+      <h2 class="h2"><span data-i18n="ministries.h2Pre">Hay un lugar para</span> <span class="em" data-i18n="ministries.h2Emph">ti</span></h2>
+      <p class="lede" data-i18n="ministries.lede">Diferentes espacios, un mismo propósito: crecer juntos.</p>
+    </div>
+    <div class="ministries-grid" id="ministries-grid"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PASTORAL
+     ============================================================ -->
+<section class="s" style="padding-block: var(--section-y);" id="team">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-i18n="pastoral.eyebrow">Equipo pastoral</div>
+      <h2 class="h2"><span data-i18n="pastoral.h2Pre">Las personas detrás de</span> <span class="em" data-i18n="pastoral.h2Emph">Hillel</span></h2>
+      <p class="lede" data-i18n="pastoral.lede">Con los pies en la tierra y el corazón en las personas.</p>
+    </div>
+    <div class="pastoral" id="pastoral-grid"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section class="s" style="padding-block: var(--section-y);" id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-i18n="faq.eyebrow">Tu primera vez</div>
+      <h2 class="h2"><span data-i18n="faq.h2Pre">No te preocupes,</span> <span class="em" data-i18n="faq.h2Emph">todos fuimos nuevos</span></h2>
+      <p class="lede" data-i18n="faq.lede">Algunas respuestas para que vengas tranquilo.</p>
+    </div>
+    <div class="faq-list reveal" id="faq-list"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LOCATION
+     ============================================================ -->
+<section class="s" style="padding-block: var(--section-y);" id="location">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-i18n="location.eyebrow">Encuéntranos</div>
+      <h2 class="h2"><span data-i18n="location.h2Pre">Dónde y</span> <span class="em" data-i18n="location.h2Emph">cuándo</span></h2>
+    </div>
+    <div class="loc-grid">
+      <div class="map-stage reveal">
+        <div class="map-stage__inner"></div>
+        <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <g stroke="currentColor" stroke-opacity="0.10" fill="none">
+            <path d="M0,30 Q30,40 60,28 T100,40"/><path d="M0,60 Q40,50 70,65 T100,58"/>
+            <path d="M30,0 Q35,30 50,55 T56,100"/><path d="M60,0 Q50,30 60,60 T55,100"/>
+          </g>
+        </svg>
+        <div class="map-pin"><div class="dot"></div><div class="label">Hillel · La Massana</div></div>
+      </div>
+      <div class="loc-info" id="loc-info"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     NEWSLETTER
+     ============================================================ -->
+<section class="s newsletter" style="padding-block: var(--section-y);">
+  <div class="container">
+    <div class="newsletter__inner">
+      <div class="reveal">
+        <div class="section-head" style="margin-bottom:0">
+          <div class="eyebrow" data-i18n="newsletter.eyebrow">Mantente conectado</div>
+          <h2 class="h2"><span data-i18n="newsletter.h2Pre">Recibe</span> <span class="em" data-i18n="newsletter.h2Emph">novedades</span></h2>
+          <p class="lede" data-i18n="newsletter.lede">Una vez al mes. Sin spam. Con corazón.</p>
+        </div>
+      </div>
+      <div class="reveal" style="--reveal-delay:100ms">
+        <form class="newsletter__field" onsubmit="event.preventDefault()">
+          <input type="email" id="newsletter-input" placeholder="tu@email.com" aria-label="Email">
+          <button type="submit" data-i18n="newsletter.submit">Suscribirme</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MARQUEE
+     ============================================================ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track" id="marquee-track"></div>
+</div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top" id="footer-content">
+      <div>
+        <img src="images/logo/511CF14D-1899-49C8-983B-580C49A2B454.PNG" alt="Hillel" style="width:56px;height:56px;object-fit:contain;filter:var(--logo-filter);transition:filter 300ms">
+        <p class="site-footer__tagline" data-i18n="footer.tagline">Una comunidad que cree en personas. En Andorra, contigo.</p>
+        <div class="site-footer__social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+          <a href="mailto:info@hillelandorra.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col" id="footer-nav"></div>
+      <div class="footer-col" id="footer-community"></div>
+      <div class="footer-col" id="footer-contact"></div>
+    </div>
+    <div class="site-footer__bottom">
+      <div data-i18n="footer.rights">© 2026 Hillel — Església d'Andorra. Todos los derechos reservados.</div>
+      <div class="legal">
+        <a href="#" data-i18n="footer.privacy">Privacidad</a>
+        <a href="#" data-i18n="footer.legal">Aviso legal</a>
+        <a href="#" data-i18n="footer.cookies">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+// ---- IMAGE BASE (change this if images move) ----
+const IMG = "images/gallery/";
+const PHOTOS = [
+  { file: "Tezza-0080.JPG", tag: "Adoración", title: "Adoración", tagCa: "Adoració" },
+  { file: "Tezza-0286.JPG", tag: "Comunidad", title: "Comunidad", tagCa: "Comunitat" },
+  { file: "Tezza-0583.JPG", tag: "Reunión", title: "Encuentro", tagCa: "Reunió" },
+  { file: "Tezza-1176.JPG", tag: "Familia", title: "Familia", tagCa: "Família" },
+  { file: "Tezza-1209.JPG", tag: "Vida", title: "Personas", tagCa: "Vida" },
+  { file: "Tezza-1865.JPG", tag: "Juntos", title: "Juntos", tagCa: "Junts" },
+  { file: "Tezza-2280.JPG", tag: "Conexión", title: "Conexión", tagCa: "Connexió" },
+  { file: "Tezza-2926.JPG", tag: "Eventos", title: "Celebración", tagCa: "Celebració" },
+  { file: "Tezza-3594.JPG", tag: "Adoración", title: "Alabanza", tagCa: "Adoració" },
+  { file: "Tezza-3656.JPG", tag: "Reunión", title: "Servicio", tagCa: "Reunió" },
+  { file: "Tezza-3781.JPG", tag: "Amistad", title: "Amistad", tagCa: "Amistat" },
+  { file: "Tezza-4225.JPG", tag: "Servicio", title: "Impacto", tagCa: "Servei" },
+  { file: "PHOTO-2026-04-19-20-07-41.jpg", tag: "Adoración", title: "Teclados", tagCa: "Adoració" },
+  { file: "PHOTO-2026-04-19-20-07-41-3.jpg", tag: "Adoración", title: "Worship", tagCa: "Adoració" },
+  { file: "PHOTO-2026-01-26-14-24-22.jpg", tag: "Kids", title: "Kids", tagCa: "Kids" },
+  { file: "PHOTO-2026-01-18-19-59-02.jpg", tag: "Jóvenes", title: "Jóvenes", tagCa: "Joves" },
+  { file: "PHOTO-2026-01-26-20-05-33.jpg", tag: "ONG", title: "Evento", tagCa: "ONG" },
+  { file: "PHOTO-2025-11-15-16-38-58.jpg", tag: "Noche", title: "Noche", tagCa: "Nit" },
+  { file: "PHOTO-2026-03-01-19-58-16.jpg", tag: "Reunión", title: "Domingo", tagCa: "Reunió" },
+  { file: "PHOTO-2026-04-12-18-56-37.jpg", tag: "Eventos", title: "Nuevo día", tagCa: "Esdeveniment" },
+];
+
+// ---- DICTIONARY ----
+const DICT = {
+  es: {
+    nav: { about:"Quiénes Somos", gallery:"Galería", ministries:"Ministerios", team:"Equipo", events:"Agenda", visit:"Visítanos" },
+    hero: { eyebrow:"Hillel — Església d'Andorra", h1Pre:"Bienvenido a ", h1Emph:"Casa", lede:"Una comunidad que cree en personas. En Andorra, contigo.", ctaPrimary:"Visítanos este domingo", ctaSecondary:"Conoce más", next:"Próxima reunión · Domingo · 11:00h" },
+    statement: { line1:"Una iglesia que no se parece a una iglesia.", line2:"Una comunidad que se parece a una", emph:"familia." },
+    gallery: { eyebrow:"Nuestra vida", h2Pre:"Momentos que", h2Emph:"importan" },
+    values: { eyebrow:"Lo que nos define", h2Pre:"Un lugar para", h2Emph:"ser", lede:"No importa de dónde vengas ni en qué punto estés. Aquí hay un sitio para ti.", items:[{n:"01",title:"Comunidad",body:"Cenas, grupos pequeños, vida real. Relaciones auténticas que van más allá del domingo."},{n:"02",title:"Fe",body:"Un Jesús cercano, no una religión rígida. Espiritualidad que se vive, no que se impone."},{n:"03",title:"Familia",body:"Espacio para todas las edades. Desde los más pequeños hasta los jóvenes y adultos."}] },
+    next: { eyebrow:"Próxima reunión", h2Pre:"Este", h2Emph:"domingo", lede:"Te esperamos. Ven como eres.", dayLabel:"Día", dayValue:"Domingo", hourLabel:"Hora", hourValue:"11:00h", placeLabel:"Lugar", placeValue:"La Massana", cta:"Cómo llegar", ctaAdd:"Añadir al calendario", lblDays:"Días", lblHrs:"Horas", lblMin:"Min" },
+    events: { eyebrow:"Agenda", h2Pre:"Lo que", h2Emph:"viene", lede:"Próximas reuniones, encuentros y noches especiales.", items:[{date:"Dom · 18 May",title:"Reunión semanal",time:"11:00h",place:"La Massana",cta:"Añadir al calendario",featured:true},{date:"Jue · 22 May",title:"Grupos pequeños",time:"20:00h",place:"En casas",cta:"Cómo unirme"},{date:"Sáb · 31 May",title:"Hillel Jóvenes",time:"19:30h",place:"Local",cta:"Más info"},{date:"Dom · 15 Jun",title:"Noche de adoración",time:"20:00h",place:"La Massana",cta:"Reservar plaza"}] },
+    ministries: { eyebrow:"Ministerios", h2Pre:"Hay un lugar para", h2Emph:"ti", lede:"Diferentes espacios, un mismo propósito: crecer juntos.", learn:"Saber más", items:[{n:"01",name:"Hillel Kids",desc:"Un espacio seguro y divertido donde los más pequeños descubren valores para toda la vida.",photo:"PHOTO-2026-01-26-14-24-22.jpg"},{n:"02",name:"Hillel Jóvenes",desc:"Comunidad, amistad y propósito. Un grupo que camina junto en la vida real.",photo:"PHOTO-2026-01-18-19-59-02.jpg"},{n:"03",name:"ONG Hillel",desc:"Acción social en Andorra y más allá. Porque la fe se demuestra con las manos.",photo:"PHOTO-2026-01-26-20-05-33.jpg"},{n:"04",name:"Hillel Online",desc:"Conéctate desde donde estés. Streaming en directo y comunidad digital.",photo:"PHOTO-2026-04-12-18-56-37.jpg"}] },
+    pastoral: { eyebrow:"Equipo pastoral", h2Pre:"Las personas detrás de", h2Emph:"Hillel", lede:"Con los pies en la tierra y el corazón en las personas.", members:[{name:"Meri Mas",role:"Pastora",quote:"\u201CLa iglesia no es un edificio. Es la gente que decide aparecer.\u201D",bio:"Apasionada por las personas y por construir una comunidad donde todos se sientan en casa.",photo:"Tezza-2339.JPG"},{name:"Juanma Jurado",role:"Pastor",quote:"\u201CNo te pedimos que cambies para venir. Ven, y ya veremos qué pasa.\u201D",bio:"Liderando con cercanía, autenticidad y una visión fresca para Andorra.",photo:"Tezza-2445.JPG"}] },
+    faq: { eyebrow:"Tu primera vez", h2Pre:"No te preocupes,", h2Emph:"todos fuimos nuevos", lede:"Algunas respuestas para que vengas tranquilo.", items:[{q:"¿Cómo me visto?",a:"Como quieras. En serio. Aquí nadie mira lo que llevas puesto. Ven cómodo."},{q:"¿Cuánto dura?",a:"Alrededor de 1 hora y media. Música, un mensaje y tiempo para conectar al final."},{q:"¿Puedo ir solo?",a:"Claro. Muchos vinieron solos la primera vez y hoy son parte de la familia."},{q:"¿Dónde aparco?",a:"Hay parking gratuito junto al local. Llegarás sin problema."}] },
+    location: { eyebrow:"Encuéntranos", h2Pre:"Dónde y", h2Emph:"cuándo", addressLabel:"Dirección", address:["La Massana, Andorra","Principat d'Andorra"], meetingsLabel:"Reuniones", meetings:["Domingos a las 11:00h","Jueves a las 20:00h (grupos)"], contactLabel:"Contacto", email:"info@hillelandorra.com", cta:"Cómo llegar" },
+    newsletter: { eyebrow:"Mantente conectado", h2Pre:"Recibe", h2Emph:"novedades", lede:"Una vez al mes. Sin spam. Con corazón.", placeholder:"tu@email.com", submit:"Suscribirme" },
+    footer: { tagline:"Una comunidad que cree en personas. En Andorra, contigo.", navTitle:"Navegación", communityTitle:"Comunidad", contactTitle:"Contacto", rights:"© 2026 Hillel — Església d'Andorra. Todos los derechos reservados.", privacy:"Privacidad", legal:"Aviso legal", cookies:"Cookies", sunday:"Domingos 11:00h", youth:"Hillel Jóvenes" },
+  },
+  ca: {
+    nav: { about:"Qui som", gallery:"Galeria", ministries:"Ministeris", team:"Equip", events:"Agenda", visit:"Vine'ns a veure" },
+    hero: { eyebrow:"Hillel — Església d'Andorra", h1Pre:"Benvingut a ", h1Emph:"Casa", lede:"Una comunitat que creu en les persones. A Andorra, amb tu.", ctaPrimary:"Vine aquest diumenge", ctaSecondary:"Coneix més", next:"Pròxima reunió · Diumenge · 11:00h" },
+    statement: { line1:"Una església que no s'assembla a una església.", line2:"Una comunitat que s'assembla a una", emph:"família." },
+    gallery: { eyebrow:"La nostra vida", h2Pre:"Moments que", h2Emph:"importen" },
+    values: { eyebrow:"El que ens defineix", h2Pre:"Un lloc per", h2Emph:"ser", lede:"No importa d'on vinguis ni en quin punt siguis. Aquí hi ha un lloc per a tu.", items:[{n:"01",title:"Comunitat",body:"Sopars, grups petits, vida real. Relacions autèntiques que van més enllà del diumenge."},{n:"02",title:"Fe",body:"Un Jesús proper, no una religió rígida. Espiritualitat que es viu, no que s'imposa."},{n:"03",title:"Família",body:"Espai per a totes les edats. Des dels més petits fins als joves i adults."}] },
+    next: { eyebrow:"Pròxima reunió", h2Pre:"Aquest", h2Emph:"diumenge", lede:"T'esperem. Vine com ets.", dayLabel:"Dia", dayValue:"Diumenge", hourLabel:"Hora", hourValue:"11:00h", placeLabel:"Lloc", placeValue:"La Massana", cta:"Com arribar", ctaAdd:"Afegir al calendari", lblDays:"Dies", lblHrs:"Hores", lblMin:"Min" },
+    events: { eyebrow:"Agenda", h2Pre:"Allò que", h2Emph:"ve", lede:"Pròximes reunions, trobades i nits especials.", items:[{date:"Dg · 18 maig",title:"Reunió setmanal",time:"11:00h",place:"La Massana",cta:"Afegir al calendari",featured:true},{date:"Dj · 22 maig",title:"Grups petits",time:"20:00h",place:"A cases",cta:"Com m'uneixo"},{date:"Ds · 31 maig",title:"Hillel Joves",time:"19:30h",place:"Local",cta:"Més info"},{date:"Dg · 15 juny",title:"Nit d'adoració",time:"20:00h",place:"La Massana",cta:"Reservar plaça"}] },
+    ministries: { eyebrow:"Ministeris", h2Pre:"Hi ha un lloc per a", h2Emph:"tu", lede:"Diferents espais, un mateix propòsit: créixer plegats.", learn:"Saber-ne més", items:[{n:"01",name:"Hillel Kids",desc:"Un espai segur i divertit on els més petits descobreixen valors per a tota la vida.",photo:"PHOTO-2026-01-26-14-24-22.jpg"},{n:"02",name:"Hillel Joves",desc:"Comunitat, amistat i propòsit. Un grup que camina plegat a la vida real.",photo:"PHOTO-2026-01-18-19-59-02.jpg"},{n:"03",name:"ONG Hillel",desc:"Acció social a Andorra i més enllà. Perquè la fe es demostra amb les mans.",photo:"PHOTO-2026-01-26-20-05-33.jpg"},{n:"04",name:"Hillel Online",desc:"Connecta't des d'on siguis. Streaming en directe i comunitat digital.",photo:"PHOTO-2026-04-12-18-56-37.jpg"}] },
+    pastoral: { eyebrow:"Equip pastoral", h2Pre:"Les persones darrere de", h2Emph:"Hillel", lede:"Amb els peus a terra i el cor a les persones.", members:[{name:"Meri Mas",role:"Pastora",quote:"\u201CL'església no és un edifici. És la gent que decideix aparèixer.\u201D",bio:"Apassionada per les persones i per construir una comunitat on tothom se senti a casa.",photo:"Tezza-2339.JPG"},{name:"Juanma Jurado",role:"Pastor",quote:"\u201CNo et demanem que canviïs per venir. Vine, i ja veurem què passa.\u201D",bio:"Liderant amb proximitat, autenticitat i una visió fresca per Andorra.",photo:"Tezza-2445.JPG"}] },
+    faq: { eyebrow:"El teu primer cop", h2Pre:"No et preocupis,", h2Emph:"tots vam ser nous", lede:"Algunes respostes perquè vinguis tranquil.", items:[{q:"Com em vesteixo?",a:"Com vulguis. De debò. Aquí ningú mira el que portes posat. Vine còmode."},{q:"Quant dura?",a:"Al voltant d'una hora i mitja. Música, un missatge i temps per connectar al final."},{q:"Puc anar-hi sol?",a:"És clar. Molts van venir sols el primer cop i avui són part de la família."},{q:"On aparco?",a:"Hi ha aparcament gratuït al costat del local. Hi arribaràs sense problema."}] },
+    location: { eyebrow:"Troba'ns", h2Pre:"On i", h2Emph:"quan", addressLabel:"Adreça", address:["La Massana, Andorra","Principat d'Andorra"], meetingsLabel:"Reunions", meetings:["Diumenges a les 11:00h","Dijous a les 20:00h (grups)"], contactLabel:"Contacte", email:"info@hillelandorra.com", cta:"Com arribar" },
+    newsletter: { eyebrow:"Mantén-te connectat", h2Pre:"Rep", h2Emph:"novetats", lede:"Una vegada al mes. Sense spam. Amb cor.", placeholder:"el-teu@email.com", submit:"Subscriure'm" },
+    footer: { tagline:"Una comunitat que creu en les persones. A Andorra, amb tu.", navTitle:"Navegació", communityTitle:"Comunitat", contactTitle:"Contacte", rights:"© 2026 Hillel — Església d'Andorra. Tots els drets reservats.", privacy:"Privacitat", legal:"Avís legal", cookies:"Cookies", sunday:"Diumenges 11:00h", youth:"Hillel Joves" },
+  }
+};
+
+let currentLang = "es";
+let currentTheme = "mono";
+
+// ---- i18n helper ----
+function t(key) {
+  return key.split(".").reduce((o, k) => o && o[k], DICT[currentLang]);
+}
+
+// ---- RENDER ALL DYNAMIC SECTIONS ----
+function renderAll() {
+  const d = DICT[currentLang];
+  // Simple i18n text nodes
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const val = t(el.dataset.i18n);
+    if (val && typeof val === "string") el.textContent = val;
+  });
+
+  // Hero letter reveal
+  renderHeroLetters(d.hero.h1Pre, d.hero.h1Emph);
+
+  // Statement
+  document.getElementById("statement-text").innerHTML =
+    `${d.statement.line1}<span class="dim">${d.statement.line2} <span class="em">${d.statement.emph}</span></span>`;
+
+  // Values
+  const vg = document.getElementById("values-grid");
+  vg.innerHTML = d.values.items.map((v,i) => `
+    <div class="value reveal" style="--reveal-delay:${i*120}ms">
+      <div class="value__num">${v.n}</div>
+      <h3 class="value__title">${v.title}</h3>
+      <p class="value__body">${v.body}</p>
+    </div>`).join("");
+
+  // Next data
+  document.getElementById("next-data").innerHTML = [
+    {l:d.next.dayLabel,v:d.next.dayValue},{l:d.next.hourLabel,v:d.next.hourValue},{l:d.next.placeLabel,v:d.next.placeValue}
+  ].map(c => `<div><div class="next-data__label">${c.l}</div><div class="next-data__value">${c.v}</div></div>`).join("");
+
+  // Countdown
+  updateCountdown();
+
+  // Events
+  document.getElementById("events-grid").innerHTML = d.events.items.map((e,i) => `
+    <div class="event reveal ${e.featured?'featured':''}" style="--reveal-delay:${i*100}ms">
+      <div class="event__date">${e.date}</div>
+      <h3 class="event__title">${e.title}</h3>
+      <div class="event__meta">${e.time} · ${e.place}</div>
+      <div class="event__cta"><span>${e.cta}</span><span class="event__arrow">→</span></div>
+    </div>`).join("");
+
+  // Ministries
+  document.getElementById("ministries-grid").innerHTML = d.ministries.items.map((m,i) => `
+    <a href="#" class="ministry reveal" style="--reveal-delay:${(i%2)*100}ms">
+      <div class="ministry__photo" style="background-image:url(${IMG}${m.photo})">
+        <div class="ministry__num">${m.n}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <h3 class="ministry__name">${m.name}</h3>
+        <p class="ministry__desc">${m.desc}</p>
+        <span class="ministry__link">${d.ministries.learn} <span>→</span></span>
+      </div>
+    </a>`).join("");
+
+  // Pastoral
+  document.getElementById("pastoral-grid").innerHTML = d.pastoral.members.map((p,i) => `
+    <div class="pastor reveal" style="--reveal-delay:${i*140}ms">
+      <div class="pastor__photo" style="background-image:url(${IMG}${p.photo})"></div>
+      <div>
+        <div class="pastor__role">${p.role}</div>
+        <h3 class="pastor__name">${p.name}</h3>
+        <blockquote class="pastor__quote">${p.quote}</blockquote>
+        <p class="pastor__bio">${p.bio}</p>
+      </div>
+    </div>`).join("");
+
+  // FAQ
+  document.getElementById("faq-list").innerHTML = d.faq.items.map((f,i) => `
+    <div class="faq-item ${i===0?'open':''}">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q__text">${f.q}</div>
+        <div class="faq-q__icon"></div>
+      </div>
+      <p class="faq-a"><span>${f.a}</span></p>
+    </div>`).join("");
+
+  // Location
+  document.getElementById("loc-info").innerHTML = `
+    <div class="loc-info__cell reveal"><div class="loc-info__label">${d.location.addressLabel}</div><div class="loc-info__value">${d.location.address.join("<br>")}</div></div>
+    <div class="loc-info__cell reveal"><div class="loc-info__label">${d.location.meetingsLabel}</div><div class="loc-info__value">${d.location.meetings.join("<br>")}</div></div>
+    <div class="loc-info__cell reveal"><div class="loc-info__label">${d.location.contactLabel}</div><div class="loc-info__value"><a href="mailto:${d.location.email}" style="border-bottom:1px solid var(--line-medium)">${d.location.email}</a></div></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap" class="reveal"><a href="https://maps.google.com/?q=La+Massana+Andorra" target="_blank" class="btn btn--primary">${d.location.cta}</a></div>`;
+
+  // Newsletter placeholder
+  document.getElementById("newsletter-input").placeholder = d.newsletter.placeholder;
+
+  // Footer
+  document.getElementById("footer-nav").innerHTML = `<h4>${d.footer.navTitle}</h4><ul>${["about","gallery","ministries","team","events"].map(k=>`<li><a href="#${k}">${d.nav[k]}</a></li>`).join("")}</ul>`;
+  document.getElementById("footer-community").innerHTML = `<h4>${d.footer.communityTitle}</h4><ul><li><a href="#ministries">Hillel Kids</a></li><li><a href="#ministries">${d.footer.youth}</a></li><li><a href="#ministries">ONG Hillel</a></li><li><a href="#ministries">Hillel Online</a></li></ul>`;
+  document.getElementById("footer-contact").innerHTML = `<h4>${d.footer.contactTitle}</h4><ul><li><a href="mailto:${d.location.email}">${d.location.email}</a></li><li class="muted">La Massana, Andorra</li><li class="muted">${d.footer.sunday}</li></ul>`;
+
+  // Re-observe reveals
+  observeReveals();
+}
+
+// ---- HERO LETTER REVEAL ----
+function renderHeroLetters(pre, emph) {
+  const preEl = document.getElementById("hero-pre");
+  const emphEl = document.getElementById("hero-emph");
+  preEl.innerHTML = [...pre].map((ch, i) =>
+    `<span class="letter" style="--letter-delay:${i*35}ms">${ch===" "?"&nbsp;":ch}</span>`
+  ).join("");
+  emphEl.innerHTML = [...emph].map((ch, i) =>
+    `<span class="letter" style="--letter-delay:${(pre.length+i)*35}ms">${ch===" "?"&nbsp;":ch}</span>`
+  ).join("");
+  setTimeout(() => {
+    document.querySelectorAll(".hero__title .letter").forEach(l => l.classList.add("in"));
+  }, 100);
+}
+
+// ---- COUNTDOWN ----
+function updateCountdown() {
+  const d = DICT[currentLang];
+  const now = new Date();
+  const target = new Date(now);
+  target.setHours(11,0,0,0);
+  let days = (7 - target.getDay()) % 7;
+  if (days === 0 && target.getTime() < now.getTime()) days = 7;
+  target.setDate(target.getDate() + days);
+  const diff = Math.max(0, target - now);
+  const ds = Math.floor(diff/86400000), hs = Math.floor((diff%86400000)/3600000), ms = Math.floor((diff%3600000)/60000);
+  document.getElementById("countdown").innerHTML = [
+    {n:ds,l:d.next.lblDays},{n:hs,l:d.next.lblHrs},{n:ms,l:d.next.lblMin}
+  ].map(c => `<div class="countdown__cell"><div class="countdown__num">${String(c.n).padStart(2,"0")}</div><div class="countdown__lbl">${c.l}</div></div>`).join("");
+}
+setInterval(updateCountdown, 60000);
+
+// ---- GALLERY CAROUSEL ----
+function buildGallery() {
+  const wheel = document.getElementById("gallery-wheel");
+  const isMobile = window.innerWidth < 768;
+  const radius = isMobile ? 200 : 480;
+  const cardW = isMobile ? 120 : 200;
+  const cardH = isMobile ? 160 : 280;
+  wheel.style.width = wheel.style.height = (radius*2) + "px";
+  wheel.innerHTML = "";
+  PHOTOS.forEach((p, i) => {
+    const angle = (i / PHOTOS.length) * 2 * Math.PI;
+    const x = radius * Math.cos(angle);
+    const y = radius * Math.sin(angle);
+    const rot = (angle * 180 / Math.PI) + 90;
+    const card = document.createElement("div");
+    card.className = "gallery-card";
+    card.style.cssText = `width:${cardW}px;height:${cardH}px;transform:translate(-50%,-50%) translate3d(${x}px,${y}px,0) rotate(${rot}deg);`;
+    card.innerHTML = `<img src="${IMG}${p.file}" alt="${p.title}" loading="lazy"><div class="gallery-card__tag">${p.tag}</div><div class="gallery-card__title">${p.title}</div>`;
+    wheel.appendChild(card);
+  });
+
+  // GSAP scroll rotation
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.getAll().forEach(st => st.kill());
+  gsap.to(wheel, {
+    rotation: 360, ease: "none",
+    scrollTrigger: { trigger: document.getElementById("gallery-pin"), pin: true, start: "center center", end: "+=3000", scrub: 1, invalidateOnRefresh: true }
+  });
+}
+
+// ---- MARQUEE ----
+function buildMarquee() {
+  const track = document.getElementById("marquee-track");
+  const subset = PHOTOS.slice(0, 12);
+  track.innerHTML = [...subset, ...subset].map(p =>
+    `<div class="marquee__item" style="background-image:url(${IMG}${p.file})"></div>`
+  ).join("");
+}
+
+// ---- REVEAL OBSERVER ----
+function observeReveals() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { rootMargin: "0px 0px -10% 0px", threshold: 0.08 });
+  document.querySelectorAll(".reveal:not(.in)").forEach(el => io.observe(el));
+}
+
+// ---- HEADER SCROLL ----
+window.addEventListener("scroll", () => {
+  document.getElementById("site-header").classList.toggle("scrolled", window.scrollY > 20);
+}, { passive: true });
+
+// ---- LANG TOGGLE ----
+document.getElementById("lang-toggle").addEventListener("click", () => {
+  currentLang = currentLang === "es" ? "ca" : "es";
+  document.getElementById("lang-es").className = currentLang === "es" ? "active" : "inactive";
+  document.getElementById("lang-ca").className = currentLang === "ca" ? "active" : "inactive";
+  document.documentElement.setAttribute("lang", currentLang);
+  renderAll();
+});
+
+// ---- THEME TOGGLE ----
+document.getElementById("theme-toggle").addEventListener("click", () => {
+  currentTheme = currentTheme === "mono" ? "night" : "mono";
+  document.documentElement.setAttribute("data-theme", currentTheme);
+  document.getElementById("icon-sun").style.display = currentTheme === "mono" ? "" : "none";
+  document.getElementById("icon-moon").style.display = currentTheme === "night" ? "" : "none";
+});
+
+// ---- INIT ----
+document.addEventListener("DOMContentLoaded", () => {
+  renderAll();
+  buildGallery();
+  buildMarquee();
+  window.addEventListener("resize", () => { clearTimeout(window._rr); window._rr = setTimeout(buildGallery, 200); });
+});
+</script>
+</body>
+</html>
