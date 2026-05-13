@@ -218,7 +218,7 @@ img { display: block; max-width: 100%; }
 .site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 
 .brand-lockup { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
-.brand-lockup img { width: 38px; height: 38px; object-fit: contain; filter: var(--logo-filter); transition: filter 300ms; }
+.brand-lockup img { width: 38px; height: 38px; object-fit: cover; border-radius: 50%; filter: var(--logo-filter); transition: filter 300ms; }
 .brand-text { display: flex; flex-direction: column; line-height: 1; gap: 2px; }
 .brand-text .name { font-family: var(--font-display); font-size: 16px; font-weight: 500; letter-spacing: -0.015em; color: var(--fg); }
 .brand-text .sub { font-family: var(--font-body); font-size: 10px; color: var(--fg-3); }
@@ -841,7 +841,7 @@ img { display: block; max-width: 100%; }
   <div class="container">
     <div class="site-footer__top" id="footer-content">
       <div>
-        <img src="images/logo/511CF14D-1899-49C8-983B-580C49A2B454.PNG" alt="Hillel" style="width:56px;height:56px;object-fit:contain;filter:var(--logo-filter);transition:filter 300ms">
+        <img src="images/logo/511CF14D-1899-49C8-983B-580C49A2B454.PNG" alt="Hillel" style="width:56px;height:56px;object-fit:cover;border-radius:50%;filter:var(--logo-filter);transition:filter 300ms">
         <p class="site-footer__tagline" data-i18n="footer.tagline">Una comunidad que cree en personas. En Andorra, contigo.</p>
         <div class="site-footer__social">
           <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
