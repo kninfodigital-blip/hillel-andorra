@@ -274,8 +274,7 @@ img { display: block; max-width: 100%; }
   position: relative; z-index: 3; width: 100%;
   max-width: var(--container-max); margin-inline: auto;
   padding-inline: var(--gutter);
-  display: flex; flex-direction: column; justify-content: flex-end; flex: 1;
-  padding-bottom: 80px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1;
 }
 .hero__card {
   background: color-mix(in oklab, var(--bg) 88%, transparent);
@@ -534,11 +533,17 @@ img { display: block; max-width: 100%; }
 /* ================================================================
    RADIAL GALLERY
    ================================================================ */
-.gallery-stage { position: relative; min-height: 100vh; overflow: hidden; }
+.gallery-stage { position: relative; overflow: hidden; }
 .gallery-stage__header { position: absolute; top: 0; left: 0; right: 0; z-index: 10; text-align: center; padding-top: 48px; pointer-events: none; }
+.gallery-viewport {
+  position: relative; width: 100%; overflow: hidden;
+  display: flex; justify-content: center;
+  mask-image: linear-gradient(to top, transparent 0%, black 35%, black 100%);
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, black 35%, black 100%);
+}
 .gallery-wheel {
   position: relative; width: 960px; height: 960px;
-  margin: 0 auto;
+  flex-shrink: 0;
 }
 .gallery-card {
   position: absolute; top: 50%; left: 50%;
@@ -577,7 +582,6 @@ img { display: block; max-width: 100%; }
   .newsletter__inner { grid-template-columns: 1fr; }
   .site-footer__top { grid-template-columns: 1fr 1fr; }
   .values-grid { grid-template-columns: 1fr; }
-  .gallery-wheel { width: 500px; height: 500px; }
   .gallery-card { width: 140px; height: 190px; }
 }
 @media (max-width: 640px) {
@@ -587,7 +591,6 @@ img { display: block; max-width: 100%; }
   .hero__card { padding: 24px 22px; }
   .ministry { grid-template-columns: 1fr; gap: 14px; }
   .hero__next-pill { display: none; }
-  .gallery-wheel { width: 400px; height: 400px; }
   .gallery-card { width: 120px; height: 160px; }
 }
 
@@ -678,8 +681,10 @@ img { display: block; max-width: 100%; }
     <div class="eyebrow" data-i18n="gallery.eyebrow">Nuestra vida</div>
     <h2 class="h2" style="margin-top:12px"><span data-i18n="gallery.h2Pre">Momentos que</span> <span class="em" data-i18n="gallery.h2Emph">importan</span></h2>
   </div>
-  <div style="position:relative; display:flex; justify-content:center; align-items:center; min-height:80vh; overflow:hidden; padding-top:100px;" id="gallery-pin">
-    <div class="gallery-wheel" id="gallery-wheel"></div>
+  <div id="gallery-pin" style="position:relative; padding-top:100px;">
+    <div class="gallery-viewport" id="gallery-viewport">
+      <div class="gallery-wheel" id="gallery-wheel"></div>
+    </div>
   </div>
 </section>
 
@@ -1058,14 +1063,32 @@ function updateCountdown() {
 }
 setInterval(updateCountdown, 60000);
 
-// ---- GALLERY CAROUSEL ----
+// ---- GALLERY CAROUSEL (semicircle) ----
 function buildGallery() {
   const wheel = document.getElementById("gallery-wheel");
+  const viewport = document.getElementById("gallery-viewport");
   const isMobile = window.innerWidth < 768;
   const radius = isMobile ? 200 : 480;
   const cardW = isMobile ? 120 : 200;
   const cardH = isMobile ? 160 : 280;
-  wheel.style.width = wheel.style.height = (radius*2) + "px";
+  const diameter = radius * 2;
+  const visiblePct = 0.48; // 48% visible (top semicircle)
+  const hiddenPct = 1 - visiblePct;
+
+  // Size the wheel
+  wheel.style.width = diameter + "px";
+  wheel.style.height = diameter + "px";
+
+  // Viewport height: show only top portion + card overhang
+  const viewportH = diameter * visiblePct + cardH / 2 + 80;
+  viewport.style.height = viewportH + "px";
+
+  // Push wheel down so bottom half is hidden
+  wheel.style.position = "absolute";
+  wheel.style.left = "50%";
+  wheel.style.transform = "translateX(-50%)";
+  wheel.style.bottom = -(diameter * hiddenPct) + "px";
+
   wheel.innerHTML = "";
   PHOTOS.forEach((p, i) => {
     const angle = (i / PHOTOS.length) * 2 * Math.PI;
