@@ -50,7 +50,7 @@ export function SiteFooter() {
               alt="Hillel"
               width={56}
               height={56}
-              className="h-14 w-auto object-contain"
+              className="h-14 w-auto object-contain logo-img transition-all duration-300"
             />
             <p className="font-sans text-[0.95rem] text-[var(--fg-2)] max-w-[32ch] leading-[1.55]">
               {t.footer.tagline}

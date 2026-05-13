@@ -10,8 +10,13 @@ import { LangProvider, useLang } from "@/lib/i18n";
 import { useReveal } from "@/lib/use-reveal";
 
 function HomeContent() {
-  const { lang, t } = useLang();
+  const { lang, t, theme } = useLang();
   useReveal([lang]);
+
+  // Apply theme to <html>
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   return (
     <>

@@ -284,25 +284,31 @@ const DICT = {
 } as const;
 
 export type Dictionary = (typeof DICT)["es"] | (typeof DICT)["ca"];
+export type Theme = "mono" | "night";
 
 interface LangContextValue {
   lang: Lang;
   setLang: (lang: Lang) => void;
   t: Dictionary;
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 }
 
 const LangContext = createContext<LangContextValue>({
   lang: "es",
   setLang: () => {},
   t: DICT.es,
+  theme: "mono",
+  setTheme: () => {},
 });
 
 export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>("es");
+  const [theme, setTheme] = useState<Theme>("mono");
   const t = DICT[lang];
 
   return (
-    <LangContext.Provider value={{ lang, setLang, t }}>
+    <LangContext.Provider value={{ lang, setLang, t, theme, setTheme }}>
       {children}
     </LangContext.Provider>
   );

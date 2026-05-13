@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useLang } from "@/lib/i18n";
 
 export function SiteHeader() {
-  const { lang, setLang, t } = useLang();
+  const { lang, setLang, t, theme, setTheme } = useLang();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -28,6 +28,7 @@ export function SiteHeader() {
   };
 
   const toggleLang = () => setLang(lang === "es" ? "ca" : "es");
+  const toggleTheme = () => setTheme(theme === "mono" ? "night" : "mono");
 
   const navLinks = [
     { href: "#about", label: t.nav.about },
@@ -58,7 +59,7 @@ export function SiteHeader() {
               alt=""
               width={38}
               height={38}
-              className="h-[38px] w-auto object-contain"
+              className="h-[38px] w-auto object-contain logo-img transition-all duration-300"
               priority
             />
             <div className="flex flex-col leading-none gap-0.5">
@@ -102,6 +103,24 @@ export function SiteHeader() {
               <span className={lang === "es" ? "font-medium text-[var(--fg)]" : "text-[var(--fg-4)]"}>ES</span>
               <span className="text-[var(--fg-4)]">·</span>
               <span className={lang === "ca" ? "font-medium text-[var(--fg)]" : "text-[var(--fg-4)]"}>CA</span>
+            </button>
+
+            {/* Theme toggle */}
+            <button
+              onClick={toggleTheme}
+              className="w-[30px] h-[30px] rounded-full border border-[var(--line-medium)] bg-transparent grid place-items-center cursor-pointer transition-all duration-300 hover:bg-[var(--surface-2)]"
+              aria-label="Cambiar tema"
+            >
+              {theme === "night" ? (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-[var(--fg-2)]">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-[var(--fg-2)]">
+                  <circle cx="12" cy="12" r="4"/>
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                </svg>
+              )}
             </button>
           </div>
 
@@ -155,12 +174,30 @@ export function SiteHeader() {
         >
           {t.nav.visit}
         </a>
-        <button
-          onClick={() => { toggleLang(); closeMobile(); }}
-          className="font-mono text-sm tracking-[0.14em] text-[var(--fg-3)] mt-2"
-        >
-          {lang === "es" ? "Canviar a Català" : "Cambiar a Español"}
-        </button>
+        <div className="flex items-center gap-4 mt-4">
+          <button
+            onClick={() => { toggleLang(); closeMobile(); }}
+            className="font-mono text-sm tracking-[0.14em] text-[var(--fg-3)]"
+          >
+            {lang === "es" ? "Canviar a Català" : "Cambiar a Español"}
+          </button>
+          <button
+            onClick={() => { toggleTheme(); closeMobile(); }}
+            className="w-10 h-10 rounded-full border border-[var(--line-medium)] grid place-items-center"
+            aria-label="Cambiar tema"
+          >
+            {theme === "night" ? (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-[var(--fg-2)]">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-[var(--fg-2)]">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+              </svg>
+            )}
+          </button>
+        </div>
       </nav>
     </>
   );

@@ -65,6 +65,41 @@
   --font-sans: var(--font-body);
 }
 
+/* ========================================================================
+   Night mode
+   ======================================================================== */
+
+[data-theme="night"] {
+  --bg: #0A0907;
+  --surface-1: #14110D;
+  --surface-2: #1E1A14;
+  --surface-3: #2A241C;
+
+  --fg: #F4F0E9;
+  --fg-2: #D8D1C2;
+  --fg-3: #8A8170;
+  --fg-4: #5C5448;
+
+  --line-hair: rgba(244, 240, 233, 0.06);
+  --line-soft: rgba(244, 240, 233, 0.10);
+  --line-medium: rgba(244, 240, 233, 0.18);
+  --line-strong: rgba(244, 240, 233, 0.50);
+
+  --accent: #E08A55;
+  --accent-soft: #4A2814;
+
+  --photo-shade: color-mix(in oklab, #000000 35%, transparent);
+
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.4), 0 0 0 1px var(--line-hair);
+  --shadow-2: 0 6px 24px -8px rgba(0,0,0,0.45), 0 0 0 1px var(--line-soft);
+
+  --logo-filter: invert(1);
+}
+
+[data-theme="night"] img.logo-img {
+  filter: invert(1);
+}
+
 @theme inline {
   --color-background: var(--bg);
   --color-foreground: var(--fg);
@@ -93,6 +128,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  transition: background 600ms var(--ease-smooth), color 600ms var(--ease-smooth);
 }
 
 @media (prefers-reduced-motion: reduce) {
