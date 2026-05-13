@@ -1,49 +1,105 @@
+"use client";
+
 import Image from "next/image";
+import { useLang } from "@/lib/i18n";
+
+function SocialIcon({ kind }: { kind: string }) {
+  if (kind === "instagram") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+        <rect x="3" y="3" width="18" height="18" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </svg>
+    );
+  }
+  if (kind === "youtube") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+      </svg>
+    );
+  }
+  if (kind === "mail") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="M3 7l9 6 9-6" />
+      </svg>
+    );
+  }
+  return null;
+}
 
 export function SiteFooter() {
+  const { t } = useLang();
+
   return (
-    <footer className="bg-black border-t border-white/10 pt-16 pb-8" role="contentinfo">
-      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-          <div>
+    <footer
+      className="bg-[var(--bg)]"
+      role="contentinfo"
+      style={{ paddingBlock: "clamp(4rem, 7vw, 6rem) clamp(2rem, 4vw, 3rem)" }}
+    >
+      <div className="mx-auto px-[var(--gutter)]" style={{ maxWidth: "var(--container-max)" }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] gap-10 pb-[60px] border-b border-[var(--line-soft)]">
+          {/* Brand col */}
+          <div className="flex flex-col gap-4">
             <Image
               src="/images/logo/511CF14D-1899-49C8-983B-580C49A2B454.PNG"
-              alt="Hillel — Església d'Andorra"
-              width={140}
+              alt="Hillel"
+              width={56}
               height={56}
-              className="h-11 w-auto mb-4 opacity-90"
+              className="h-14 w-auto object-contain"
             />
-            <p className="text-sm text-neutral-400 leading-relaxed max-w-[280px]">
-              Una comunidad que cree en personas. En Andorra, contigo.
+            <p className="font-sans text-[0.95rem] text-[var(--fg-2)] max-w-[32ch] leading-[1.55]">
+              {t.footer.tagline}
             </p>
-            <div className="flex gap-3 mt-5">
-              {[
-                { label: "Instagram", d: "M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10m0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" },
-                { label: "YouTube", d: "M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43zM9.75 15.02V8.48l5.75 3.27-5.75 3.27z" },
-                { label: "Facebook", d: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
-              ].map((social) => (
+            <div className="flex gap-2.5">
+              {["instagram", "youtube", "mail"].map((kind) => (
                 <a
-                  key={social.label}
-                  href="#"
-                  className="w-10 h-10 flex items-center justify-center border border-white/15 rounded-full hover:border-white/40 hover:bg-white/5 transition-all"
-                  aria-label={social.label}
+                  key={kind}
+                  href={kind === "mail" ? `mailto:${t.location.email}` : "#"}
+                  className="w-9 h-9 border border-[var(--line-medium)] rounded-full grid place-items-center text-[var(--fg)] transition-all duration-300 hover:bg-[var(--fg)] hover:text-[var(--bg)]"
+                  aria-label={kind}
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-neutral-400">
-                    <path d={social.d} />
-                  </svg>
+                  <SocialIcon kind={kind} />
                 </a>
               ))}
             </div>
           </div>
 
+          {/* Nav col */}
           <div>
-            <h4 className="text-[11px] font-medium tracking-[0.15em] uppercase text-neutral-500 mb-5">
-              Navegación
+            <h4 className="font-mono text-[11px] tracking-[0.22em] uppercase text-[var(--fg-3)] font-medium mb-[18px]">
+              {t.footer.navTitle}
             </h4>
-            <ul className="space-y-3">
-              {["Quiénes Somos", "Galería", "Ministerios", "Equipo", "Reuniones"].map((item) => (
+            <ul className="list-none p-0 m-0 flex flex-col gap-2.5">
+              {[
+                { label: t.nav.about, href: "#about" },
+                { label: t.nav.gallery, href: "#gallery" },
+                { label: t.nav.ministries, href: "#ministries" },
+                { label: t.nav.team, href: "#team" },
+                { label: t.nav.events, href: "#events" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <a href={item.href} className="font-sans text-[0.95rem] text-[var(--fg-2)] hover:text-[var(--fg)] transition-colors duration-300">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Community col */}
+          <div>
+            <h4 className="font-mono text-[11px] tracking-[0.22em] uppercase text-[var(--fg-3)] font-medium mb-[18px]">
+              {t.footer.communityTitle}
+            </h4>
+            <ul className="list-none p-0 m-0 flex flex-col gap-2.5">
+              {["Hillel Kids", t.footer.youth, "ONG Hillel", "Hillel Online"].map((item) => (
                 <li key={item}>
-                  <a href={`#${item.toLowerCase().replace(/\s/g, "")}`} className="text-sm text-neutral-300 hover:text-white transition-colors">
+                  <a href="#ministries" className="font-sans text-[0.95rem] text-[var(--fg-2)] hover:text-[var(--fg)] transition-colors duration-300">
                     {item}
                   </a>
                 </li>
@@ -51,43 +107,29 @@ export function SiteFooter() {
             </ul>
           </div>
 
+          {/* Contact col */}
           <div>
-            <h4 className="text-[11px] font-medium tracking-[0.15em] uppercase text-neutral-500 mb-5">
-              Comunidad
+            <h4 className="font-mono text-[11px] tracking-[0.22em] uppercase text-[var(--fg-3)] font-medium mb-[18px]">
+              {t.footer.contactTitle}
             </h4>
-            <ul className="space-y-3">
-              {["Hillel Kids", "Hillel Jóvenes", "ONG Hillel", "Hillel Online"].map((item) => (
-                <li key={item}>
-                  <a href="#ministries" className="text-sm text-neutral-300 hover:text-white transition-colors">
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[11px] font-medium tracking-[0.15em] uppercase text-neutral-500 mb-5">
-              Contacto
-            </h4>
-            <ul className="space-y-3 text-sm text-neutral-300">
-              <li><a href="mailto:info@hillelandorra.com" className="hover:text-white transition-colors">info@hillelandorra.com</a></li>
-              <li>La Massana, Andorra</li>
-              <li>Domingos 11:00h</li>
+            <ul className="list-none p-0 m-0 flex flex-col gap-2.5 font-sans text-[0.95rem] text-[var(--fg-2)]">
+              <li>
+                <a href={`mailto:${t.location.email}`} className="hover:text-[var(--fg)] transition-colors duration-300">
+                  {t.location.email}
+                </a>
+              </li>
+              <li className="text-[var(--fg-3)] text-[0.9rem]">La Massana, Andorra</li>
+              <li className="text-[var(--fg-3)] text-[0.9rem]">{t.footer.sunday}</li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-neutral-500">
-            &copy; 2026 Hillel — Església d&apos;Andorra. Todos los derechos reservados.
-          </p>
-          <div className="flex gap-6">
-            {["Privacidad", "Aviso legal", "Cookies"].map((item) => (
-              <a key={item} href="#" className="text-xs text-neutral-500 hover:text-white transition-colors">
-                {item}
-              </a>
-            ))}
+        <div className="flex flex-wrap justify-between gap-5 mt-9 font-sans text-[0.85rem] text-[var(--fg-3)]">
+          <div>{t.footer.rights}</div>
+          <div className="flex gap-5">
+            <a href="#" className="hover:text-[var(--fg)] transition-colors">{t.footer.privacy}</a>
+            <a href="#" className="hover:text-[var(--fg)] transition-colors">{t.footer.legal}</a>
+            <a href="#" className="hover:text-[var(--fg)] transition-colors">{t.footer.cookies}</a>
           </div>
         </div>
       </div>
