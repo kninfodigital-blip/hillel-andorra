@@ -978,9 +978,7 @@ function renderAll() {
   // Hero letter reveal
   renderHeroLetters(d.hero.h1Pre, d.hero.h1Emph);
 
-  // Statement
-  document.getElementById("statement-text").innerHTML =
-    `${d.statement.line1}<span class="dim">${d.statement.line2} <span class="em">${d.statement.emph}</span></span>`;
+  // Statement (static content, no dynamic update needed)
 
   // Values
   const vg = document.getElementById("values-grid");
