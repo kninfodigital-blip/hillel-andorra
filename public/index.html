@@ -687,20 +687,8 @@ img { display: block; max-width: 100%; }
      ============================================================ -->
 <section class="statement" id="about">
   <div class="container" style="text-align:center;">
-    <h2 class="h2 reveal" style="text-align:center;margin:0 auto;">Una comunidad que se parece a una <span class="em">familia</span></h2>
-
-    <div class="reveal" style="--reveal-delay:100ms; max-width:880px; margin-top:clamp(3rem,6vw,5rem); margin-inline:auto; text-align:center;">
-      <h3 style="font-family:var(--font-display);font-size:clamp(1.25rem,2vw,1.75rem);font-weight:500;letter-spacing:-0.015em;color:var(--fg);margin:0 0 18px;line-height:1.15;">Quiénes somos</h3>
-      <p style="font-family:var(--font-body);font-size:0.95rem;line-height:1.7;color:var(--fg-2);margin:0 auto 20px;max-width:90ch;">Podríamos decir que la Iglesia Hillel es una iglesia contemporánea donde se recibe a todo el mundo <strong>TAL Y COMO ES</strong>.</p>
-      <p style="font-family:var(--font-body);font-size:0.95rem;line-height:1.7;color:var(--fg-2);margin:0 auto 20px;max-width:90ch;">Hillel trabaja con un gran equipo humano para compartir las Buenas Nuevas de Jesús enfocados en la visión, por medio de: grupos de amistad, jóvenes, kids, reuniones, conciertos evangelísticos… y, como no, apoyados con los recursos de las nuevas tecnologías (Instagram, Facebook y canal YouTube).</p>
-
-      <div style="height:1px;background:var(--line-soft);margin:clamp(2rem,4vw,3rem) auto;max-width:200px;"></div>
-
-      <h3 style="font-family:var(--font-display);font-size:clamp(1.25rem,2vw,1.75rem);font-weight:500;letter-spacing:-0.015em;color:var(--fg);margin:0 0 18px;line-height:1.15;">Misión y visión</h3>
-      <p style="font-family:var(--font-body);font-size:0.95rem;line-height:1.7;color:var(--fg-2);margin:0 auto 20px;max-width:90ch;">Un sueño es una idea, una visión es accionar; un sueño es un lugar al que quieres llegar, y una visión, es cómo llegar a ese lugar. En otras palabras, tener visión es estructurar lo que quieres lograr, algo que dure y exista, más allá de solo desearlo.</p>
-      <p style="font-family:var(--font-body);font-size:0.95rem;line-height:1.7;color:var(--fg-2);margin:0 auto 20px;max-width:90ch;">Nuestra visión como Iglesia es alcanzar y influenciar a Andorra a través de una gran Iglesia Cristo céntrica, basada en la Biblia, donde su estrategia es la Alabanza y Adoración. Dios habita en medio de la alabanza de su pueblo (Salmo 22) y sabemos que donde está Dios pueden ocurrir milagros.</p>
-      <p style="font-family:var(--font-body);font-size:0.95rem;line-height:1.7;color:var(--fg-2);margin:0 auto;max-width:90ch;">Así como mandó Jesús <em>"Id a las naciones y predicad el evangelio"</em> (Marcos 16:15) esa es nuestra misión como iglesia, una iglesia que te invita a venir <strong>Tal y como Eres</strong>. Una iglesia contemporánea que se manifiesta llevando el mensaje de las buenas nuevas del reino de Dios, invitando a las personas a tener una relación personal con Dios y no una religión.</p>
-    </div>
+    <h2 class="h2 reveal" id="statement-title" style="text-align:center;margin:0 auto;"></h2>
+    <div class="reveal" id="statement-body" style="--reveal-delay:100ms; max-width:880px; margin-top:clamp(3rem,6vw,5rem); margin-inline:auto; text-align:center;"></div>
   </div>
 </section>
 
@@ -929,7 +917,7 @@ const DICT = {
   es: {
     nav: { about:"Quiénes Somos", gallery:"Galería", ministries:"Ministerios", team:"Equipo", events:"Agenda", visit:"Visítanos" },
     hero: { eyebrow:"Hillel — Iglésia de Andorra.", h1Pre:"Bienvenido a ", h1Emph:"Casa", lede:"¡Ven tal como eres!.", ctaPrimary:"Visítanos este domingo", ctaSecondary:"Conoce más", next:"Próxima reunión · Domingo · 18:00h" },
-    statement: { line1:"Una iglesia que no se parece a una iglesia.", line2:"Una comunidad que se parece a una", emph:"familia." },
+    statement: { title:"Una comunidad que se parece a una", titleEmph:"familia", aboutTitle:"Quiénes somos", aboutP1:"Podríamos decir que la Iglesia Hillel es una iglesia contemporánea donde se recibe a todo el mundo <strong>TAL Y COMO ES</strong>.", aboutP2:"Hillel trabaja con un gran equipo humano para compartir las Buenas Nuevas de Jesús enfocados en la visión, por medio de: grupos de amistad, jóvenes, kids, reuniones, conciertos evangelísticos… y, como no, apoyados con los recursos de las nuevas tecnologías (Instagram, Facebook y canal YouTube).", missionTitle:"Misión y visión", missionP1:"Un sueño es una idea, una visión es accionar; un sueño es un lugar al que quieres llegar, y una visión, es cómo llegar a ese lugar. En otras palabras, tener visión es estructurar lo que quieres lograr, algo que dure y exista, más allá de solo desearlo.", missionP2:"Nuestra visión como Iglesia es alcanzar y influenciar a Andorra a través de una gran Iglesia Cristo céntrica, basada en la Biblia, donde su estrategia es la Alabanza y Adoración. Dios habita en medio de la alabanza de su pueblo (Salmo 22) y sabemos que donde está Dios pueden ocurrir milagros.", missionP3:'Así como mandó Jesús <em>"Id a las naciones y predicad el evangelio"</em> (Marcos 16:15) esa es nuestra misión como iglesia, una iglesia que te invita a venir <strong>Tal y como Eres</strong>. Una iglesia contemporánea que se manifiesta llevando el mensaje de las buenas nuevas del reino de Dios, invitando a las personas a tener una relación personal con Dios y no una religión.' },
     gallery: { eyebrow:"Nuestra vida", h2Pre:"Momentos que", h2Emph:"importan" },
     values: { eyebrow:"Lo que nos define", h2Pre:"Un lugar para", h2Emph:"ser", lede:"No importa de dónde vengas ni en qué punto estés. Aquí hay un sitio para ti.", items:[{n:"01",title:"Comunidad",body:"Cenas, grupos pequeños, vida real. Relaciones auténticas que van más allá del domingo."},{n:"02",title:"Fe",body:"Un Jesús cercano, no una religión rígida. Espiritualidad que se vive, no que se impone."},{n:"03",title:"Familia",body:"Espacio para todas las edades. Desde los más pequeños hasta los jóvenes y adultos."}] },
     next: { eyebrow:"Próxima reunión", h2Pre:"Este", h2Emph:"domingo", lede:"Te esperamos. Ven como eres.", dayLabel:"Día", dayValue:"Domingo", hourLabel:"Hora", hourValue:"18:00h", placeLabel:"Lugar", placeValue:"La Massana", cta:"Cómo llegar", ctaAdd:"Añadir al calendario", lblDays:"Días", lblHrs:"Horas", lblMin:"Min" },
@@ -944,7 +932,7 @@ const DICT = {
   ca: {
     nav: { about:"Qui som", gallery:"Galeria", ministries:"Ministeris", team:"Equip", events:"Agenda", visit:"Vine'ns a veure" },
     hero: { eyebrow:"Hillel — Església d'Andorra", h1Pre:"Benvingut a ", h1Emph:"Casa", lede:"Vine tal com ets!.", ctaPrimary:"Vine aquest diumenge", ctaSecondary:"Coneix més", next:"Pròxima reunió · Diumenge · 18:00h" },
-    statement: { line1:"Una església que no s'assembla a una església.", line2:"Una comunitat que s'assembla a una", emph:"família." },
+    statement: { title:"Una comunitat que s'assembla a una", titleEmph:"família", aboutTitle:"Qui som", aboutP1:"Podríem dir que l'Església Hillel és una església contemporània on es rep a tothom <strong>TAL COM ÉS</strong>.", aboutP2:"Hillel treballa amb un gran equip humà per compartir les Bones Noves de Jesús enfocats en la visió, per mitjà de: grups d'amistat, joves, kids, reunions, concerts evangelístics… i, com no, recolzats amb els recursos de les noves tecnologies (Instagram, Facebook i canal YouTube).", missionTitle:"Missió i visió", missionP1:"Un somni és una idea, una visió és accionar; un somni és un lloc on vols arribar, i una visió, és com arribar a aquest lloc. En altres paraules, tenir visió és estructurar el que vols aconseguir, alguna cosa que duri i existeixi, més enllà de només desitjar-ho.", missionP2:"La nostra visió com a Església és arribar i influenciar Andorra a través d'una gran Església cristocèntrica, basada en la Bíblia, on la seva estratègia és la Lloança i Adoració. Déu habita enmig de la lloança del seu poble (Salm 22) i sabem que on és Déu poden ocórrer miracles.", missionP3:'Així com va manar Jesús <em>"Aneu a les nacions i prediqueu l\'evangeli"</em> (Marc 16:15) aquesta és la nostra missió com a església, una església que et convida a venir <strong>Tal com Ets</strong>. Una església contemporània que es manifesta portant el missatge de les bones noves del regne de Déu, convidant les persones a tenir una relació personal amb Déu i no una religió.' },
     gallery: { eyebrow:"La nostra vida", h2Pre:"Moments que", h2Emph:"importen" },
     values: { eyebrow:"El que ens defineix", h2Pre:"Un lloc per", h2Emph:"ser", lede:"No importa d'on vinguis ni en quin punt siguis. Aquí hi ha un lloc per a tu.", items:[{n:"01",title:"Comunitat",body:"Sopars, grups petits, vida real. Relacions autèntiques que van més enllà del diumenge."},{n:"02",title:"Fe",body:"Un Jesús proper, no una religió rígida. Espiritualitat que es viu, no que s'imposa."},{n:"03",title:"Família",body:"Espai per a totes les edats. Des dels més petits fins als joves i adults."}] },
     next: { eyebrow:"Pròxima reunió", h2Pre:"Aquest", h2Emph:"diumenge", lede:"T'esperem. Vine com ets.", dayLabel:"Dia", dayValue:"Diumenge", hourLabel:"Hora", hourValue:"18:00h", placeLabel:"Lloc", placeValue:"La Massana", cta:"Com arribar", ctaAdd:"Afegir al calendari", lblDays:"Dies", lblHrs:"Hores", lblMin:"Min" },
@@ -978,7 +966,19 @@ function renderAll() {
   // Hero letter reveal
   renderHeroLetters(d.hero.h1Pre, d.hero.h1Emph);
 
-  // Statement (static content, no dynamic update needed)
+  // Statement
+  document.getElementById("statement-title").innerHTML = `${d.statement.title} <span class="em">${d.statement.titleEmph}</span>`;
+  const ps = `font-family:var(--font-body);font-size:0.95rem;line-height:1.7;color:var(--fg-2);margin:0 auto 20px;max-width:90ch;`;
+  const hs = `font-family:var(--font-display);font-size:clamp(1.25rem,2vw,1.75rem);font-weight:500;letter-spacing:-0.015em;color:var(--fg);margin:0 0 18px;line-height:1.15;`;
+  document.getElementById("statement-body").innerHTML = `
+    <h3 style="${hs}">${d.statement.aboutTitle}</h3>
+    <p style="${ps}">${d.statement.aboutP1}</p>
+    <p style="${ps}">${d.statement.aboutP2}</p>
+    <div style="height:1px;background:var(--line-soft);margin:clamp(2rem,4vw,3rem) auto;max-width:200px;"></div>
+    <h3 style="${hs}">${d.statement.missionTitle}</h3>
+    <p style="${ps}">${d.statement.missionP1}</p>
+    <p style="${ps}">${d.statement.missionP2}</p>
+    <p style="${ps}margin-bottom:0;">${d.statement.missionP3}</p>`;
 
   // Values
   const vg = document.getElementById("values-grid");
